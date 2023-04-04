@@ -20,6 +20,7 @@ CPPFLAGS	=	-I ./include -I ./src
 
 $(NAME): $(OBJ)
 	$(CC) -o $(NAME) $(OBJ)
+	mv $(NAME) ../n4s_package
 
 clean:
 	$(RM) $(OBJ)
