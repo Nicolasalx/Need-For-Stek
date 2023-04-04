@@ -9,7 +9,7 @@
 
 int main(void)
 {
-    car_t car = {.lidar = NULL, .speed = 0};
+    car_t car = {.lidar = NULL};
 
     main_loop(&car);
     return 0;

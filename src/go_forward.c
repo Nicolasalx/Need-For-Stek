@@ -20,5 +20,6 @@ void go_forward(int speed)
         my_putstr("CAR_FORWARD:");
         my_put_double(real_speed, 1);
         my_putstr("\n");
+        wait_for_the_response();
     }
 }

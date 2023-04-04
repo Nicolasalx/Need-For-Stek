@@ -18,4 +18,5 @@ void turn_right(int angle)
     my_putstr("WHEELS_DIR:-");
     my_put_double(real_angle, 1);
     my_putstr("\n");
+    wait_for_the_response();
 }
