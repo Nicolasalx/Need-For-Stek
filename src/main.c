@@ -7,8 +7,10 @@
 
 #include "my.h"
 
-int main(int ac, char **av)
+int main(void)
 {
-    main_loop();
+    car_t car = {.lidar = NULL, .speed = 0};
+
+    main_loop(&car);
     return 0;
 }

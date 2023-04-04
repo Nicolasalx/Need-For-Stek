@@ -6,14 +6,20 @@
 */
 
 #include "my.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <sys/types.h>
 
-void main_loop(void)
+void main_loop(car_t *car)
 {
-    printf("START_SIMULATION\n");
+    my_putstr("START_SIMULATION\n");
     while (1) {
-        printf("CAR_FORWARD:0.3\n");
-        printf("GET_INFO_LIDAR\n");
+        get_lidar_info(&car->lidar);
+        if (car->lidar != NULL) {
+            compute_move_car(car);
+        }
+        print_lidar_info(car->lidar); // ! pour debug
     }
-    printf("STOP_SIMULATION\n");
-    exit(0);
+    my_putstr("STOP_SIMULATION\n");
 }

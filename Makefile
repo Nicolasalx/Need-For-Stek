@@ -1,35 +1,76 @@
 ##
 ## EPITECH PROJECT, 2022
-## AIA
+## Makefile
 ## File description:
 ## Makefile
 ##
 
-CC	=	gcc
+SRC			=	src/main.c \
+				src/main_loop.c \
+				src/get_lidar_info.c \
+				src/print_lidar_info.c \
+				src/go_forward.c \
+				src/turn_left.c \
+				src/turn_right.c \
+				src/compute_move_car.c
 
-SRC	=	src/main.c	\
-		src/main_loop.c	\
+CFLAGS		=	-W -Wall -Wextra -I ./include
 
-OBJ	=	$(SRC:.c=.o)
+NAME		=	ai
 
-NAME	=	ai
+LIBPATH		=	lib/
 
-CFLAGS	=	-Wall -Wextra
+LIBNAME		=	lib/my_lib.a
 
-CPPFLAGS	=	-I ./include -I ./src
+OBJ			=	$(SRC:.c=.o)
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ)
-	mv $(NAME) ../n4s_package
-
-clean:
-	$(RM) $(OBJ)
-
-fclean: clean
-	$(RM)  $(NAME)
-
-re: fclean all
+	cd $(LIBPATH) && $(MAKE)
+	gcc -o $(NAME) $(OBJ) $(LIBNAME) $(CFLAGS)
 
 all: $(NAME)
 
-.PHONY: all clean fclean re
+clean:
+	cd $(LIBPATH) && $(MAKE) clean
+	rm -f $(OBJ)
+	rm -f *.gcno
+	rm -f *.gcda
+	rm -f gmon.out
+
+fclean: clean
+	cd $(LIBPATH) && $(MAKE) fclean
+	rm -f $(NAME)
+	rm -f $(NAME_TESTS)
+
+re: fclean all
+
+## ? USAGE : make profiling arg="arg_for_my_prog"
+profiling: CFLAGS += -pg
+profiling: re
+	@printf "\e[0m------------------------------\e[0m\n"
+	./$(NAME) $(arg)
+	@printf "\e[0m------------------------------\e[0m\n"
+	gprof $(NAME) gmon.out
+
+debug: CFLAGS += -g3
+debug: re
+	gdb -ex "run" -ex "bt full" -ex "detach" -ex "quit" --args $(NAME) $(arg)
+
+std_func_used:
+	cd $(LIBPATH) && $(MAKE) std_func_used
+	$(MAKE) re
+	@printf "\n----------| PROGRAM |----------\e[1;96m\n"
+	@symbols=$$(nm -D $(NAME) | awk '$$NF ~ /@GLIBC/ {print $$NF}'); \
+	for symbol in $$symbols; do \
+		if [[ "$$symbol" =~ ^__.* ]]; then \
+			continue; \
+		elif [ "$$symbol" = "puts@GLIBC_2.2.5" ]; then \
+			printf "%s\e[0;1m <- \e[1;91mused in printf\e[1;96m\n" \
+			"$${symbol%@*}"; \
+		else \
+			printf "%s\n" "$${symbol%@*}"; \
+		fi; \
+	done
+	@printf "\e[0m-------------------------------\n\n"
+
+.PHONY: all clean fclean re profiling debug sed
