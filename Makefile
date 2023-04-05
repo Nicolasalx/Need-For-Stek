@@ -13,7 +13,8 @@ SRC			=	src/main.c \
 				src/turn_left.c \
 				src/turn_right.c \
 				src/compute_move_car.c \
-				src/wait_for_the_response.c
+				src/wait_for_the_response.c \
+				src/is_track_clear.c
 
 CFLAGS		=	-W -Wall -Wextra -I ./include
 

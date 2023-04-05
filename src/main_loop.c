@@ -15,7 +15,7 @@ void main_loop(car_t *car)
 {
     my_putstr("START_SIMULATION\n");
     wait_for_the_response();
-    while (1) {
+    while (is_track_cleared(false) == false) {
         get_lidar_info(&car->lidar);
         if (car->lidar != NULL) {
             compute_move_car(car);

@@ -32,7 +32,7 @@ void compute_move_car(car_t *car)
         compute_turn_direction(car, 1);
     } else if (LIDAR_MIDDLE(car->lidar) > 2000) {
         go_forward(50);
-        print_error(GREEN("SPEED ", INT(20), "\n"));
+        print_error(GREEN("SPEED ", INT(50), "\n"));
         compute_turn_direction(car, 2);
     } else if (LIDAR_MIDDLE(car->lidar) > 400) {
         go_forward(20);

@@ -10,6 +10,18 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+void check_track_cleared(char *line)
+{
+    int nb_word = count_nb_word(line, ":\n");
+    int *size_word = count_size_word(line, ":\n", nb_word);
+    char **word = my_str_to_word(line, ":\n", nb_word, size_word);
+
+    print_error("WORD 4 :", word[3], "\n");
+    if (nb_word >= 4 && my_strcmp(word[3], "Track Cleared") == 0) {
+        is_track_cleared(true);
+    }
+}
+
 void wait_for_the_response(void)
 {
     char *line = NULL;
@@ -20,5 +32,7 @@ void wait_for_the_response(void)
     if (read == -1) {
         return;
     }
+    print_error(RED("NEW :"), line);
+    check_track_cleared(line);
     free(line);
 }

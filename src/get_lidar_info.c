@@ -50,6 +50,8 @@ void parse_lidar_info(char *line, int **lidar)
     for (int i = 3; i < 3 + NB_LIDAR_RAY; ++i) {
         (*lidar)[i - 3] = my_get_nb(word[i]);
     }
+    if (my_strcmp(word[35], "Track Cleared") == 0)
+        is_track_cleared(true);
     free(size_word);
     free_board(word);
 }
@@ -65,7 +67,7 @@ void get_lidar_info(int **lidar)
     if (read == -1) {
         return;
     }
-//    print_error(RED("NEW :"), line);
+    print_error(RED("NEW :"), line);
     parse_lidar_info(line, lidar);
     free(line);
 }

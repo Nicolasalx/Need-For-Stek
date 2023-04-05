@@ -39,5 +39,6 @@ void turn_left(int angle);
 void turn_right(int angle);
 void compute_move_car(car_t *car);
 void wait_for_the_response(void);
+bool is_track_cleared(bool is_cleared);
 
 #endif /*MY_H_*/
