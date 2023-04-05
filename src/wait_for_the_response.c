@@ -32,7 +32,6 @@ void wait_for_the_response(void)
     if (read == -1) {
         return;
     }
-    print_error(RED("NEW :"), line);
     check_track_cleared(line);
     free(line);
 }

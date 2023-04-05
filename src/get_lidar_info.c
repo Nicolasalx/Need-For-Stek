@@ -67,7 +67,6 @@ void get_lidar_info(int **lidar)
     if (read == -1) {
         return;
     }
-    print_error(RED("NEW :"), line);
     parse_lidar_info(line, lidar);
     free(line);
 }
