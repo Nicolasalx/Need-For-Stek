@@ -20,7 +20,6 @@ void main_loop(car_t *car)
         if (car->lidar != NULL) {
             compute_move_car(car);
         }
-        print_lidar_info(car->lidar); // ! pour debug
     }
     my_putstr("STOP_SIMULATION\n");
     wait_for_the_response();
