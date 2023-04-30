@@ -10,37 +10,46 @@
 void compute_turn_direction(car_t *car, int angle)
 {
     if (car->lidar[LIDAR_LEFT] > car->lidar[LIDAR_RIGHT]
-    && car->lidar[LIDAR_RIGHT] < 500) {
+    && car->lidar[LIDAR_RIGHT] < 550) {
         turn_left(angle);
-        print_error(RED("LEFT ", INT(angle), "\n"));
     } else if (car->lidar[LIDAR_RIGHT] > car->lidar[LIDAR_LEFT]
-    && car->lidar[LIDAR_LEFT] < 500) {
+    && car->lidar[LIDAR_LEFT] < 550) {
         turn_right(angle);
-        print_error(RED("RIGHT ", INT(angle), "\n"));
     } else {
         my_putstr("WHEELS_DIR:0.0\n");
         wait_for_the_response();
     }
 }
 
+void slow_down(car_t *car, int *count)
+{
+    go_forward(0);
+        if (*count > 100) {
+            go_forward(10);
+            *count = 0;
+        }
+        compute_turn_direction(car, 45);
+        ++ *count;
+}
+
 void compute_move_car(car_t *car)
 {
-    print_error(CYAN(INT(LIDAR_MIDDLE(car->lidar))), "\n");
-    if (LIDAR_MIDDLE(car->lidar) > 3000) {
-        go_forward(100);
-        print_error(GREEN("SPEED ", INT(100), "\n"));
+    static int count = 0;
+    if (LIDAR_MIDDLE(car->lidar) > 3000
+    && car->lidar[LIDAR_LEFT] > 100 && car->lidar[LIDAR_RIGHT] > 100) {
+        go_forward(80);
         compute_turn_direction(car, 1);
-    } else if (LIDAR_MIDDLE(car->lidar) > 2000) {
-        go_forward(50);
-        print_error(GREEN("SPEED ", INT(50), "\n"));
+        return;
+    }
+    if (LIDAR_MIDDLE(car->lidar) > 2000
+    && car->lidar[LIDAR_LEFT] > 100 && car->lidar[LIDAR_RIGHT] > 100) {
+        go_forward(40);
         compute_turn_direction(car, 2);
-    } else if (LIDAR_MIDDLE(car->lidar) > 400) {
+    } else if (LIDAR_MIDDLE(car->lidar) > 600
+    && car->lidar[LIDAR_LEFT] > 100 && car->lidar[LIDAR_RIGHT] > 100) {
         go_forward(20);
-        print_error(GREEN("SPEED ", INT(20), "\n"));
-        compute_turn_direction(car, 20);
+        compute_turn_direction(car, 15);
     } else {
-        go_forward(10);
-        print_error(GREEN("SPEED ", INT(10), "\n"));
-        compute_turn_direction(car, 40);
+        slow_down(car, &count);
     }
 }

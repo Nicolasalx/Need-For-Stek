@@ -16,7 +16,6 @@ void check_track_cleared(char *line)
     int *size_word = count_size_word(line, ":\n", nb_word);
     char **word = my_str_to_word(line, ":\n", nb_word, size_word);
 
-    print_error("WORD 4 :", word[3], "\n");
     if (nb_word >= 4 && my_strcmp(word[3], "Track Cleared") == 0) {
         is_track_cleared(true);
     }
