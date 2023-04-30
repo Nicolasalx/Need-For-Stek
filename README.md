@@ -44,3 +44,54 @@ that you have made yourself) that is located in the CoppeliaSim (drag ’n drop 
 menu).
 Make sure, when starting the CoppeliaSim, that the selected physics engine is the ODE.
 The car will perform best in this mode. Menu: Simulation -> Using the ODE physics engine
+
+EXAMPLE
+Here’s an example of the n4s binary usage in standalone, in order to test the API:
+
+∼/B-AIA-200> ./n4s
+start_simulation
+2:OK:Simulation running:No further info
+stop_simulation
+10:OK:Simulation was correctly ended:No further info
+Last state registered: 10:OK:Simulation was correctly ended
+
+FAQ
+What is the viewing angle?
+
+60 degrees, first-person viewpoint
+
+What is the LIDAR unit of measurement?
+Millimeters.
+
+What are the car’s dimensions?
+The car’s dimensions are not exactly known and can vary from one model to another (and very certainly
+between the virtual model and the real car).
+Try to have an AI that’s intelligent enough to function without
+this information.
+
+There are very simple ways to do it.
+How much does the car weigh and what is its maximum speed?
+
+As with the previous question, this is information that you don’t necessarily need. What’s more, you just
+need to take measurements when the car starts up in order to deduce its speed.
+
+How many drive-wheels does it have and at what angle is the car able to turn?
+Ditto.
+
+Why don’t the values returned by the LIDAR exceed 3010?
+
+A real LIDAR uses a limited-reach laser. In order for the simulator to be as close to a real environment as
+possible, we have curbed the measured distances to this limit. In other words, when an obstacle is “detected” at a distance of 3010, it means that this obstacle is more than 10 feet from the car.
+
+What do the two values in the type 4 response correspond to?
+
+They give, in seconds and nanoseconds, the time that has passed since START_SIMULATION.
+
+What is the evaluation really looking for?
+
+An AI that is able to do laps, rather quickly, on the track (to give you a hint, tell yourself that a lap done in
+5 minutes on a small track is much too slow).
+
+We’re also looking to see that your AI will stop driving and
+terminate the simulation in a dead-end. In this case, it must stop at least three feet from the wall, without
+touching it, before terminating the simulation.
